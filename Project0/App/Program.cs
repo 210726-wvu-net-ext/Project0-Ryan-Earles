@@ -19,6 +19,11 @@ namespace App
     {
         static void Main(string[] args)
         {
+            Start();
+        }
+
+        public static void Start() {
+            
         }
 
       
