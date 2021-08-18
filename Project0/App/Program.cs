@@ -23,6 +23,7 @@ namespace App
         }
 
         public static void Start() {
+            System.Console.WriteLine("Welcome to Scream, your one stop shop for Restaurant Reviews");
             
         }
 
