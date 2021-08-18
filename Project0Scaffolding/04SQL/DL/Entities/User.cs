@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace DL.Entities
 {
-    public partial class Cat
+    public partial class User
     {
-        public Cat()
+        public User()
         {
             Meals = new HashSet<Meal>();
         }
