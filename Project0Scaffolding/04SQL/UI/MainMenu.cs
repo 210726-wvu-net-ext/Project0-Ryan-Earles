@@ -111,17 +111,48 @@ namespace UI
                 password = Console.ReadLine();
 
             } while(String.IsNullOrWhiteSpace(password));
-            userToAdd = new User(name, username, password);
-
-
-
-
-
+            userToAdd = _reviewb1.AddUser(name, username, password, false);
+            System.Console.WriteLine($"{userToAdd.Name} was successfully added!");
 
         }
         private void AddAdmin()
         {
-
+            //to ask for default password, if its correct, ask for username and password
+            bool check = false;
+            string username;
+            string input; 
+            string name; 
+            string password; 
+            do
+            {
+                System.Console.WriteLine("Please enter the default Admin Password, or press [0] to exit");
+                input = Console.ReadLine();
+                if (input == "7294") {
+                    check == true;
+                }
+                else if (input == "0") {
+                    goto end;
+                }
+            }while(check != true)
+            System.Console.WriteLine("Welcome Admin!");
+            do
+            {
+                System.Console.WriteLine("What's your name? ");
+                name = Console.ReadLine();
+            }while (String.IsNullOrWhiteSpace(name))
+            do 
+            {
+                System.Console.WriteLine("What do you want your username to be? ");
+                username = Console.ReadLine();
+            }while (String.IsNullOrWhiteSpace(username))
+            do
+            {
+                System.Console.WriteLine("What do you want to change your default password to? ");
+                password = Console.ReadLine();
+            }while (String.IsNullOrWhiteSpace(password))
+            userToAdd = _reviewb1.AddUser(name, username, password, true);
+            System.Console.WriteLine($"{userToAdd.Name} was successfully added!");
+            end:
         }
         private void AddReview()
         {
