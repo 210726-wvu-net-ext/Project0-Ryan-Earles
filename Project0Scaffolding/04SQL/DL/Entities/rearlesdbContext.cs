@@ -6,11 +6,11 @@ namespace DL.Entities
 {
     public partial class rearlesdbContext : DbContext
     {
-        public petdbContext()
+        public rearlesdbContext()
         {
         }
 
-        public petdbContext(DbContextOptions<petdbContext> options)
+        public rearlesdbContext(DbContextOptions<rearlesdbContext> options)
             : base(options)
         {
         }
@@ -76,20 +76,20 @@ namespace DL.Entities
             });
 
 
-            modelBuilder.Entity<Meal>(entity => //do this with the join table. 
-            {
-                entity.Property(e => e.FoodType)
-                    .IsRequired()
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
+            // modelBuilder.Entity<Meal>(entity => //do this with the join table. 
+            // {
+            //     entity.Property(e => e.FoodType)
+            //         .IsRequired()
+            //         .HasMaxLength(100)
+            //         .IsUnicode(false);
 
-                entity.Property(e => e.Time).HasColumnType("datetime");
+            //     entity.Property(e => e.Time).HasColumnType("datetime");
 
-                entity.HasOne(d => d.Cat)
-                    .WithMany(p => p.Meals)
-                    .HasForeignKey(d => d.CatId)
-                    .HasConstraintName("FK__Meals__CatId__02FC7413");
-            });
+            //     entity.HasOne(d => d.Cat)
+            //         .WithMany(p => p.Meals)
+            //         .HasForeignKey(d => d.CatId)
+            //         .HasConstraintName("FK__Meals__CatId__02FC7413");
+            // });
 
             OnModelCreatingPartial(modelBuilder);
         }

@@ -8,10 +8,10 @@ namespace UI
     public class MainMenu : IMenu
     {
         //the below code allows us to access the methods from IPetBL below in Start(); due to IMenu menu = new MainMenu(new PetBL(new PetRepo(context)));
-        private IPetBL _petbl;
-        public MainMenu(IPetBL bl) //called from Program.cs line 22
+        private IReviewBL _reviewb1;
+        public MainMenu(IReviewBL bl) //called from Program.cs line 22
         {
-            _petbl = bl;
+            _reviewbl = bl;
         }
 
         public void Start() //this is called from Program.cs line 23
@@ -88,6 +88,35 @@ namespace UI
         }
         private void AddUser() 
         {
+            //to ask for name, username and password
+            string name;
+            string username;
+            string password;
+            User userToAdd;
+            do
+            {
+                System.Console.WriteLine("What is your name? ");
+                name = Console.ReadLine();
+
+            } while(String.IsNullOrWhiteSpace(name));
+            do
+            {
+                System.Console.WriteLine("What is the username? "); //check if its included in the database already
+                username = Console.ReadLine();
+
+            } while(String.IsNullOrWhiteSpace(username));
+            do
+            {
+                System.Console.WriteLine("What is your password? "); //potentially check against good passwords
+                password = Console.ReadLine();
+
+            } while(String.IsNullOrWhiteSpace(password));
+            userToAdd = new User(name, username, password);
+
+
+
+
+
 
         }
         private void AddAdmin()
@@ -100,32 +129,33 @@ namespace UI
         }
         private void AddRestaurant()
         {
-            
+
         }
         
         private void SearchRestaurant()
         {
-            AllRestaurants();
+           List<Restaurant> restaurants = AllRestaurants();
         }
         private List<Restaurant> AllRestaurants() //helper method to return restaurants with their name, zipcode and rating
         {
-
+            return _reviewbl.AllRestaurants();
         }
         private void SearchReview()
         {
-            AllReviews();
+            List<Review> reviews = AllReviews();
         }
         private List<Review> AllReviews() //helper method to return reviews with title, body, rating, name, restaurant name
         {
+            return _reviewbl.AllReviews();
             //this will need to grab the name of the restaurant and name of the user for that restaurant
         }
         private void SearchUser()
         {
-            AllUsers();
+            List<User> users = AllUsers();
         }
         private List<User> AllUsers()
         {
-
+            return _reviewbl.AllUsers();
         }
 
     }
