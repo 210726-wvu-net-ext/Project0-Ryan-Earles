@@ -5,7 +5,7 @@ namespace DL.Entities
         //name zipcode rating
         public int Id { get; set; }
         public string Name { get; set; }
-        public int Nipcode { get; set; }
+        public int Zipcode { get; set; }
         public decimal Rating { get; set; }
 
         public virtual ICollection<Restaurant> Restaurant { get; set; }
