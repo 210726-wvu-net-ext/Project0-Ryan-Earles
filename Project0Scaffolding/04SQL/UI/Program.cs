@@ -13,11 +13,11 @@ var configuration = new ConfigurationBuilder() //this adds the required informat
 
 string connectionString = configuration.GetConnectionString("rearlesdb"); //this sets the connection string
 
-DbContextOptions<petdbContext> options = new DbContextOptionsBuilder<petdbContext>() //this calls the dbcontext to set up the connection for the db
+DbContextOptions<rearlesdb> options = new DbContextOptionsBuilder<rearlesdb>() //this calls the dbcontext to set up the connection for the db
     .UseSqlServer(connectionString)
     .Options;
 
-var context = new petdbContext(options); //sets up to use the connection
+var context = new rearlesdb(options); //sets up to use the connection
 
 IMenu menu = new MainMenu(new PetBL(new PetRepo(context))); //sets up menu in UI to call DL inside of BL
 menu.Start(); //this starts the program and at this point we are connected to my db

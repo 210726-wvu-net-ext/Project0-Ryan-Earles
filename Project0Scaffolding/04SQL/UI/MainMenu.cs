@@ -98,6 +98,11 @@ namespace UI
         {
 
         }
+        private void AddRestaurant()
+        {
+            
+        }
+        
         private void SearchRestaurant()
         {
             AllRestaurants();
