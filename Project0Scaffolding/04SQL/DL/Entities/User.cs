@@ -5,14 +5,13 @@ namespace DL.Entities
 {
     public partial class User
     {
-        public User()
-        {
-            Meals = new HashSet<Meal>();
-        }
 
         public int Id { get; set; }
         public string Name { get; set; }
+        public string Username { get; set; } 
+        public string Password { get; set; }
+        public bool isAdmin { get; set; }
 
-        public virtual ICollection<Meal> Meals { get; set; }
+        public virtual ICollection<User> User { get; set; }
     }
 }

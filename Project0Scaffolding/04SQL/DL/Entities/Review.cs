@@ -10,6 +10,6 @@ namespace DL.Entities
         public string Body { get; set; }
         public int? Rating { get; set; }
 
-        public virtual Review review { get; set; }
+        public virtual ICollection<Review> Review { get; set; }
     }
 }

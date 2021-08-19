@@ -6,12 +6,19 @@ namespace DL
 {
     public interface IPetRepo
     {
-        List<Cat> GetAllCats();
+        User AddUser(User user);
 
-        Cat AddACat(Cat cat);
+        Restaurant AddRestaurant(Restaurant restaurant);
 
-        Meal AddAMeal(Meal meal);
+        Review AddReview(Review review);
 
-        Cat SearchCatByName(string name);
+        List<User> AllUsers();
+
+        List<Restaurant> AllRestaurants();
+
+        List<Review> AllReviews();
+
     }
 }
+
+

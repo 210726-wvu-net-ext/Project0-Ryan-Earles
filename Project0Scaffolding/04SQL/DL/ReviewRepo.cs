@@ -7,20 +7,21 @@ namespace DL
 {
     public class PetRepo : IPetRepo
     {
-        private petdbContext _context;
-        public PetRepo(petdbContext context)
+        private rearlesdbContext _context;
+        public PetRepo(rearlesdbContext context)
         {
             _context = context;
         }
 
-        public List<Models.Cat> GetAllCats()
+        public List<Models.Cat> GetAllCats() //getting everything available this will be used in getting all the Rests, all the reviews, all the users
         {
             return _context.Cats.Select(
                 cat => new Models.Cat(cat.Id, cat.Name)
             ).ToList();
         }
+        
 
-        public Models.Cat AddACat(Models.Cat cat)
+        public Models.Cat AddACat(Models.Cat cat) //example of adding a user, a restaurant, or a review
         {
             _context.Cats.Add(
                 new Entities.Cat{
@@ -32,7 +33,7 @@ namespace DL
             return cat;
         }
 
-        public Models.Meal AddAMeal(Models.Meal meal)
+        public Models.Meal AddAMeal(Models.Meal meal) ///example of potentially a join?
         {
             _context.Meals.Add(
                 new Entities.Meal {
@@ -46,7 +47,7 @@ namespace DL
             return meal;
         }
 
-        public Models.Cat SearchCatByName(string name)
+        public Models.Cat SearchCatByName(string name) //an example of searching for a value for the search stuff
         {
             Entities.Cat foundCat =  _context.Cats
                 .FirstOrDefault(cat => cat.Name == name);
