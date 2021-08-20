@@ -5,6 +5,10 @@ namespace DL.Entities
 {
     public partial class User
     {
+        public User()
+        {
+            Users = new HashSet<User>();
+        }
 
         public int Id { get; set; }
         public string Name { get; set; }
@@ -12,6 +16,6 @@ namespace DL.Entities
         public string Password { get; set; }
         public bool isAdmin { get; set; }
 
-        public virtual ICollection<User> User { get; set; }
+        public virtual ICollection<User> Users { get; set; }
     }
 }

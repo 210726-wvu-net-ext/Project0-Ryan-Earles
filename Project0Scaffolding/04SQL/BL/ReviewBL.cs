@@ -8,7 +8,7 @@ namespace BL
     {
         private IReviewRepo _repo;
 
-        public PetBL(IReviewRepo repo)
+        public ReviewBL(IReviewRepo repo)
         {
             _repo = repo;
         }
@@ -36,7 +36,7 @@ namespace BL
         {
             return _repo.AllRestaurants();
         }
-        public List<Reviews> AllReviews()
+        public List<Review> AllReviews()
         {
             return _repo.AllReviews();
         }

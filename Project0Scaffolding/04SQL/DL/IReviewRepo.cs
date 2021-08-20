@@ -4,7 +4,7 @@ using Models;
 
 namespace DL
 {
-    public interface IPetRepo
+    public interface IReviewRepo
     {
         User AddUser(User user);
 

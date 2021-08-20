@@ -11,7 +11,7 @@ namespace UI
         private IReviewBL _reviewb1;
         public MainMenu(IReviewBL bl) //called from Program.cs line 22
         {
-            _reviewbl = bl;
+            _reviewb1 = bl;
         }
 
         public void Start() //this is called from Program.cs line 23
@@ -52,7 +52,7 @@ namespace UI
                     break;
 
                     case "3": //searching restaurants
-                    SearchRestuarant();
+                    SearchRestaurant();
                     break;
 
                     case "4": //searching users?
@@ -66,26 +66,26 @@ namespace UI
             } while(repeat);
         }
 
-        private void AddACat() //add a user
-        {
-            string input;
-            Cat catToAdd;
+        // private void AddACat() //add a user
+        // {
+        //     string input;
+        //     Cat catToAdd;
 
-            Console.WriteLine("Enter details for the cat to add");
+        //     Console.WriteLine("Enter details for the cat to add");
             
-            do
-            {
-                Console.WriteLine("Name: ");
-                input = Console.ReadLine();
+        //     do
+        //     {
+        //         Console.WriteLine("Name: ");
+        //         input = Console.ReadLine();
 
-            } while(String.IsNullOrWhiteSpace(input));
+        //     } while(String.IsNullOrWhiteSpace(input));
 
 
-            catToAdd = new Cat(input);
-            catToAdd = _petbl.AddACat(catToAdd);
+        //     catToAdd = new Cat(input);
+        //     catToAdd = _petbl.AddACat(catToAdd);
 
-            Console.WriteLine($"{catToAdd.Name} was successfully added!");
-        }
+        //     Console.WriteLine($"{catToAdd.Name} was successfully added!");
+        // }
         private void AddUser() 
         {
             //to ask for name, username and password
@@ -111,7 +111,8 @@ namespace UI
                 password = Console.ReadLine();
 
             } while(String.IsNullOrWhiteSpace(password));
-            userToAdd = _reviewb1.AddUser(name, username, password, false);
+            userToAdd = new User(name, username, password, false);
+            userToAdd = _reviewb1.AddUser(userToAdd);
             System.Console.WriteLine($"{userToAdd.Name} was successfully added!");
 
         }
@@ -123,36 +124,39 @@ namespace UI
             string input; 
             string name; 
             string password; 
+            
             do
             {
                 System.Console.WriteLine("Please enter the default Admin Password, or press [0] to exit");
                 input = Console.ReadLine();
                 if (input == "7294") {
-                    check == true;
+                    check = true;
                 }
                 else if (input == "0") {
-                    goto end;
+                    goto Endofmethod;
                 }
-            }while(check != true)
+            }while(check != true);
             System.Console.WriteLine("Welcome Admin!");
             do
             {
                 System.Console.WriteLine("What's your name? ");
                 name = Console.ReadLine();
-            }while (String.IsNullOrWhiteSpace(name))
+            }while (String.IsNullOrWhiteSpace(name));
             do 
             {
                 System.Console.WriteLine("What do you want your username to be? ");
                 username = Console.ReadLine();
-            }while (String.IsNullOrWhiteSpace(username))
+            }while (String.IsNullOrWhiteSpace(username));
             do
             {
                 System.Console.WriteLine("What do you want to change your default password to? ");
                 password = Console.ReadLine();
-            }while (String.IsNullOrWhiteSpace(password))
-            userToAdd = _reviewb1.AddUser(name, username, password, true);
+            }while (String.IsNullOrWhiteSpace(password));
+            User userToAdd;
+            userToAdd = new User(name, username, password, false);
+            userToAdd = _reviewb1.AddUser(userToAdd);
             System.Console.WriteLine($"{userToAdd.Name} was successfully added!");
-            end:
+            Endofmethod: Console.WriteLine("Please choose another option!");
         }
         private void AddReview()
         {
@@ -169,7 +173,7 @@ namespace UI
         }
         private List<Restaurant> AllRestaurants() //helper method to return restaurants with their name, zipcode and rating
         {
-            return _reviewbl.AllRestaurants();
+            return _reviewb1.AllRestaurants();
         }
         private void SearchReview()
         {
@@ -177,7 +181,7 @@ namespace UI
         }
         private List<Review> AllReviews() //helper method to return reviews with title, body, rating, name, restaurant name
         {
-            return _reviewbl.AllReviews();
+            return _reviewb1.AllReviews();
             //this will need to grab the name of the restaurant and name of the user for that restaurant
         }
         private void SearchUser()
@@ -186,7 +190,7 @@ namespace UI
         }
         private List<User> AllUsers()
         {
-            return _reviewbl.AllUsers();
+            return _reviewb1.AllUsers();
         }
 
     }

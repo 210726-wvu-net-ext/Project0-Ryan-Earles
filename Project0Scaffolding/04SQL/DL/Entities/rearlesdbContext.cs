@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using System.Collections.Generic;
+
 
 namespace DL.Entities
 {
@@ -16,9 +18,9 @@ namespace DL.Entities
         }
 
 
-        public virtual DBSet<Restaurant> Restaurant { get; set; }
-        public virtual DBSet<Review> Review { get; set; }
-        public virtual DBSet<User> User { get; set; }
+        public virtual DbSet<Restaurant> Restaurants { get; set; }
+        public virtual DbSet<Review> Reviews { get; set; }
+        public virtual DbSet<User> Users { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

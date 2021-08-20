@@ -3,14 +3,17 @@ namespace Models
     public class User
     {
         public User() {}
-        public User(string name, int id, string username, string password, bool isadmin)
-        {
+        public User(string name, string username, string password, bool isadmin) {
             this.Name = name;
-            this.Id = id;
             this.Username = username;
             this.Password = password;
-            this.isAdmin = isadmin; 
+            this.isAdmin = isadmin;
 
+        }
+        public User(int id, string name, string username, string password, bool isadmin) : this(name, username, password, isadmin) 
+        {
+
+            this.Id = id;
         }
         //look into how this is set up
         public string Name {get; set;}
