@@ -11,13 +11,14 @@ var configuration = new ConfigurationBuilder() //this adds the required informat
     .AddJsonFile("appsettings.json")
     .Build();
 
-string connectionString = configuration.GetConnectionString("rearlesdb"); //this sets the connection string
+string connectionString = configuration.GetConnectionString("RearlesDB"); //this sets the connection string
 
-DbContextOptions<rearlesdbContext> options = new DbContextOptionsBuilder<rearlesdbContext>() //this calls the dbcontext to set up the connection for the db
+DbContextOptions<RearlesDBContext> options = new DbContextOptionsBuilder<RearlesDBContext>() //this calls the dbcontext to set up the connection for the db
     .UseSqlServer(connectionString)
     .Options;
 
-var context = new rearlesdbContext(options); //sets up to use the connection
+var context = new RearlesDBContext(options); //sets up to use the connection
 
 IMenu menu = new MainMenu(new ReviewBL(new ReviewRepo(context))); //sets up menu in UI to call DL inside of BL
+
 menu.Start(); //this starts the program and at this point we are connected to my db

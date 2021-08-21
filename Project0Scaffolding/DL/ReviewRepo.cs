@@ -7,33 +7,33 @@ namespace DL
 {
     public class ReviewRepo : IReviewRepo
     {
-        private rearlesdbContext _context;
-        public ReviewRepo(rearlesdbContext context)
+        private RearlesDBContext _context;
+        public ReviewRepo(RearlesDBContext context)
         {
             _context = context;
         }
 
         public List<Models.Restaurant> AllRestaurants()
         {
-            return _context.Restaurants.Select(
+            return _context.Restaurant.Select(
                 Restaurant => new Models.Restaurant(Restaurant.Name, Restaurant.Id, Restaurant.Zipcode, Restaurant.Rating) //id name, zipcode, rating, 
             ).ToList();
         }
         public List<Models.Review> AllReviews()
         {
-            return _context.Reviews.Select(
+            return _context.Review.Select(
                 Review => new Models.Review(Review.Id, Review.Title, Review.Body, Review.Rating) //id, title, body, rating
             ).ToList();
         }
         public List<Models.User> AllUsers()
         {
-            return _context.Users.Select(
+            return _context.User.Select(
                 User => new Models.User(User.Id, User.Name, User.Username, User.Password, User.isAdmin) //id, name, username, password, isadmin
             ).ToList();
         }
         public Models.Restaurant AddRestaurant(Models.Restaurant restaurant) 
         {
-            _context.Restaurants.Add(
+            _context.Restaurant.Add(
                 new Entities.Restaurant{
                     Id = restaurant.Id,
                     Name = restaurant.Name,
@@ -47,7 +47,7 @@ namespace DL
         }
         public Models.Review AddReview(Models.Review review) 
         {
-            _context.Reviews.Add(
+            _context.Review.Add(
                 new Entities.Review{
                     Id = review.Id,
                     Title = review.Title,
@@ -61,7 +61,7 @@ namespace DL
         }
         public Models.User AddUser(Models.User user) //id, name, username, password, isadmin
         {
-            _context.Users.Add(
+            _context.User.Add(
                 new Entities.User{
                     Id = user.Id,
                     Name = user.Name,
