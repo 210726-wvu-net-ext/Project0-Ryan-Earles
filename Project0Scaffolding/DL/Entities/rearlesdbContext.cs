@@ -17,10 +17,11 @@ namespace DL.Entities
         {
         }
 
-
-        public virtual DbSet<Restaurant> Restaurant { get; set; }
-        public virtual DbSet<Review> Review { get; set; }
-        public virtual DbSet<User> User { get; set; }
+        
+        public virtual DbSet<Restaurant> Restaurants { get; set; }
+        public virtual DbSet<Review> Reviews { get; set; }
+        public virtual DbSet<ReviewJoin> ReviewJoins { get; set; }
+        public virtual DbSet<User> Users { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -75,6 +76,23 @@ namespace DL.Entities
                     .IsRequired()
                     .HasMaxLength(100)
                     .IsUnicode(false);
+            });
+             modelBuilder.Entity<ReviewJoin>(entity =>
+            {
+                entity.HasOne(d => d.Restaurant)
+                    .WithMany(p => p.ReviewJoins)
+                    .HasForeignKey(d => d.RestaurantId)
+                    .HasConstraintName("FK__ReviewJoi__Resta__19DFD96B");
+
+                entity.HasOne(d => d.Review)
+                    .WithMany(p => p.ReviewJoins)
+                    .HasForeignKey(d => d.ReviewId)
+                    .HasConstraintName("FK__ReviewJoi__Revie__1AD3FDA4");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.ReviewJoins)
+                    .HasForeignKey(d => d.UserId)
+                    .HasConstraintName("FK__ReviewJoi__UserI__1BC821DD");
             });
 
 

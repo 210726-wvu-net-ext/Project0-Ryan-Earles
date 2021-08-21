@@ -7,7 +7,7 @@ namespace DL.Entities
     {
         public User()
         {
-            Users = new HashSet<User>();
+            ReviewJoins = new HashSet<ReviewJoin>();
         }
 
         public int Id { get; set; }
@@ -16,6 +16,8 @@ namespace DL.Entities
         public string Password { get; set; }
         public bool isAdmin { get; set; }
 
-        public virtual ICollection<User> Users { get; set; }
+        public virtual ICollection<ReviewJoin> ReviewJoins { get; set; }
     }
 }
+
+

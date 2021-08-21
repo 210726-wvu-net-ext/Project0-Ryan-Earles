@@ -8,7 +8,7 @@ namespace DL.Entities
     {
         public Restaurant()
         {
-            Restaurants = new HashSet<Restaurant>();
+            ReviewJoins = new HashSet<ReviewJoin>();
         }
         //name zipcode rating
         public int Id { get; set; }
@@ -16,7 +16,9 @@ namespace DL.Entities
         public int Zipcode { get; set; }
         public decimal Rating { get; set; }
 
-        public virtual ICollection<Restaurant> Restaurants { get; set; }
+        public virtual ICollection<ReviewJoin> ReviewJoins { get; set; }
 
     }
 }
+
+

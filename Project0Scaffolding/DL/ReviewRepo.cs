@@ -15,25 +15,25 @@ namespace DL
 
         public List<Models.Restaurant> AllRestaurants()
         {
-            return _context.Restaurant.Select(
+            return _context.Restaurants.Select(
                 Restaurant => new Models.Restaurant(Restaurant.Name, Restaurant.Id, Restaurant.Zipcode, Restaurant.Rating) //id name, zipcode, rating, 
             ).ToList();
         }
         public List<Models.Review> AllReviews()
         {
-            return _context.Review.Select(
+            return _context.Reviews.Select(
                 Review => new Models.Review(Review.Id, Review.Title, Review.Body, Review.Rating) //id, title, body, rating
             ).ToList();
         }
         public List<Models.User> AllUsers()
         {
-            return _context.User.Select(
+            return _context.Users.Select(
                 User => new Models.User(User.Id, User.Name, User.Username, User.Password, User.isAdmin) //id, name, username, password, isadmin
             ).ToList();
         }
         public Models.Restaurant AddRestaurant(Models.Restaurant restaurant) 
         {
-            _context.Restaurant.Add(
+            _context.Restaurants.Add(
                 new Entities.Restaurant{
                     Id = restaurant.Id,
                     Name = restaurant.Name,
@@ -47,7 +47,7 @@ namespace DL
         }
         public Models.Review AddReview(Models.Review review) 
         {
-            _context.Review.Add(
+            _context.Reviews.Add(
                 new Entities.Review{
                     Id = review.Id,
                     Title = review.Title,
@@ -61,7 +61,7 @@ namespace DL
         }
         public Models.User AddUser(Models.User user) //id, name, username, password, isadmin
         {
-            _context.User.Add(
+            _context.Users.Add(
                 new Entities.User{
                     Id = user.Id,
                     Name = user.Name,

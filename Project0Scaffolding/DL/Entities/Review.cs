@@ -7,7 +7,7 @@ namespace DL.Entities
     {
         public Review()
         {
-            Reviews = new HashSet<Review>();
+            ReviewJoins = new HashSet<ReviewJoin>();
         }
         
         public int Id { get; set; }
@@ -15,6 +15,6 @@ namespace DL.Entities
         public string Body { get; set; }
         public decimal Rating { get; set; }
 
-        public virtual ICollection<Review> Reviews { get; set; }
+        public virtual ICollection<ReviewJoin> ReviewJoins { get; set; }
     }
 }

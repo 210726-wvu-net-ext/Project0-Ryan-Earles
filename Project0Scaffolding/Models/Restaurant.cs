@@ -21,9 +21,12 @@ namespace Models
         public string Name {get;set;}
         public int Zipcode{ get; set; }
         public decimal Rating { get; set; }
+        public List<ReviewJoin> ReviewJoins {get;set;}
 
         
 
     }
 
 }
+
+
