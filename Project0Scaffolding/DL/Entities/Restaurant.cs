@@ -11,6 +11,7 @@ namespace DL.Entities
             ReviewJoins = new HashSet<ReviewJoin>();
         }
         //name zipcode rating
+        public int Count { get; set; }
         public int Id { get; set; }
         public string Name { get; set; }
         public int Zipcode { get; set; }

@@ -16,7 +16,7 @@ namespace DL
         public List<Models.Restaurant> AllRestaurants()
         {
             return _context.Restaurants.Select(
-                Restaurant => new Models.Restaurant(Restaurant.Name, Restaurant.Id, Restaurant.Zipcode, Restaurant.Rating) //id name, zipcode, rating, 
+                Restaurant => new Models.Restaurant(Restaurant.Name, Restaurant.Id, Restaurant.Zipcode, Restaurant.Rating, Restaurant.Count) //id name, zipcode, rating, 
             ).ToList();
         }
         public List<Models.Review> AllReviews()
@@ -38,7 +38,8 @@ namespace DL
                     Id = restaurant.Id,
                     Name = restaurant.Name,
                     Zipcode = restaurant.Zipcode,
-                    Rating = restaurant.Rating
+                    Rating = restaurant.Rating,
+                    Count = restaurant.Count
                 }
             );
             _context.SaveChanges();
@@ -52,7 +53,8 @@ namespace DL
                     Id = review.Id,
                     Title = review.Title,
                     Body = review.Body,
-                    Rating = review.Rating
+                    Rating = review.Rating,
+                    IRestuarant = review.IRestuarant
                 }
             );
             _context.SaveChanges();

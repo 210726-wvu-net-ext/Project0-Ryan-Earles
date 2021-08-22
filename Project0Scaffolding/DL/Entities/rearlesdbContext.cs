@@ -43,6 +43,10 @@ namespace DL.Entities
                     .IsRequired()
                     .HasMaxLength(100)
                     .IsUnicode(false);
+                entity.Property(e => e.Count)
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
             });
             modelBuilder.Entity<Review>(entity =>
             {

@@ -233,6 +233,7 @@ namespace UI
             Review reviewToAdd;
             Restaurant thisrestaurant = SearchRestaurantID(rast);
             int id = thisrestaurant.Id;
+            thisrestaurant.Count = thisrestaurant.Count+1;
             reviewToAdd = new Review(title, body, ratinghere, id);
             reviewToAdd = _reviewb1.AddReview(reviewToAdd);
             System.Console.WriteLine(reviewToAdd.IRestuarant);
@@ -262,7 +263,7 @@ namespace UI
                     check = false;
             }while(check);
             Restaurant AddRestaurant;
-            AddRestaurant = new Restaurant(rast, zipcode, 0);
+            AddRestaurant = new Restaurant(rast, zipcode, 0, 0);
             AddRestaurant = _reviewb1.AddRestaurant(AddRestaurant);
             System.Console.WriteLine($"{AddRestaurant.Name} was successfully added as a Restaurant in the system!");
         }
@@ -458,7 +459,7 @@ namespace UI
                 System.Console.WriteLine("The restaurants with the requested zipcode are as follows:");
                 foreach (Restaurant i in restaurants)
                 {
-                    if (i.Zipcode == AAAAAAAAA)
+                    if (i.Zipcode.ToString() == AAAAAAAAA)
                     {
                         System.Console.WriteLine(i.Name);
                     }
@@ -478,7 +479,7 @@ namespace UI
                 System.Console.WriteLine("The restaurants with the requested rating are as follows:");
                 foreach (Restaurant i in restaurants)
                 {
-                    if (i.Rating == AAAAAAAAA)
+                    if (i.Rating.ToString() == AAAAAAAAA)
                     {
                         System.Console.WriteLine(i.Name);
                     }
