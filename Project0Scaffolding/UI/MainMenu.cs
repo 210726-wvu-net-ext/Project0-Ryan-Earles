@@ -43,8 +43,10 @@ namespace UI
                 Console.WriteLine("[3] Add a Restaurant");
                 Console.WriteLine("[4] Add a Review");
                 Console.WriteLine("[5] Search a User");
-                Console.WriteLine("[6] Search a Restaurant");
+                Console.WriteLine("[6] Display a Restaurant");
                 Console.WriteLine("[7] Search a Review");
+                Console.WriteLine("[8] Display the contents of a Review");
+                Console.WriteLine("[9] Search a Restaurant");
 
                 switch(Console.ReadLine())
                 {
@@ -79,6 +81,14 @@ namespace UI
 
                     case "7": //search review
                     SearchReview();
+                    break;
+
+                    case "8":
+                    DisplayReviewsofRestaurants();
+                    break;
+
+                    case "9":
+                    SearchRestaurant();
                     break;
 
                     default:
@@ -182,16 +192,27 @@ namespace UI
         }
         private void AddReview()
         {
-            string rest = "";
+            string rast = "";
             string title = "";
             string body = "";
             decimal ratinghere;
+            bool check = true;
             System.Console.WriteLine("Welcome to adding a review!");
-             do
+           do 
             {
-                System.Console.WriteLine("What Restaurant do you want to add a review for? ");
-                rest = Console.ReadLine();
-            }while (String.IsNullOrWhiteSpace(rest));
+                System.Console.WriteLine("What's the name of the Restaurant you want to add a review for? or press [0] to exit");
+                rast = Console.ReadLine();
+                if (rast == "0")
+                {
+                    check = false;
+                }
+                if (SearchRestaurantName(rast) == true)
+                    check = false;
+                else
+                    Console.WriteLine("We are sorry, the Restaurant you are trying to write a review for does not exist");
+            }while(check);
+            if (rast == "0")
+                goto endofadd;
             bool Screaming = true;
              do
             {
@@ -210,8 +231,13 @@ namespace UI
                 body = Console.ReadLine();
             }while (String.IsNullOrWhiteSpace(body));
             Review reviewToAdd;
-            reviewToAdd = new Review(title, body, ratinghere);
+            Restaurant thisrestaurant = SearchRestaurantID(rast);
+            int id = thisrestaurant.Id;
+            reviewToAdd = new Review(title, body, ratinghere, id);
             reviewToAdd = _reviewb1.AddReview(reviewToAdd);
+            System.Console.WriteLine(reviewToAdd.IRestuarant);
+            System.Console.WriteLine($"The Review with the title of {reviewToAdd.Title} has successfully been added!");
+            endofadd: System.Console.WriteLine("Returning to options");
         }
         private void AddRestaurant()
         {
@@ -223,7 +249,7 @@ namespace UI
             {
                 System.Console.WriteLine("What's the name of the Restaurant you want to add? or press [0] to exit");
                 rast = Console.ReadLine();
-                if (SearchRestaurant(rast) == false)
+                if (SearchRestaurantName(rast) == false)
                     check = false;
                 else 
                     Console.WriteLine("We are sorry, the Restaurant you are trying to add is already in our system");
@@ -235,20 +261,46 @@ namespace UI
                 if (int.TryParse(Console.ReadLine(), out zipcode))
                     check = false;
             }while(check);
-
-
-
+            Restaurant AddRestaurant;
+            AddRestaurant = new Restaurant(rast, zipcode, 0);
+            AddRestaurant = _reviewb1.AddRestaurant(AddRestaurant);
+            System.Console.WriteLine($"{AddRestaurant.Name} was successfully added as a Restaurant in the system!");
         }
-        private void SearchRestaurant()
+        private Restaurant SearchRestaurantID(string name)
         {
            List<Restaurant> restaurants = AllRestaurants();
            foreach (var res in restaurants)
            {
-              
+               if (res.Name == name)
+                    return res;
            }
+           return null;
 
         }
-        private bool SearchRestaurant(string name)
+        private void DisplayRestaurant() //to implement. 
+        {
+            //display details of restaurant to user
+            string rast = "";
+            bool check = true; 
+            do 
+            {
+                System.Console.WriteLine("What restaurant do you want to look up? ");
+                rast = Console.ReadLine();
+                if (SearchRestaurantName(rast) == true) //this checks if it exists, the method returns true if it does and false if it doesn't
+                    check = false;
+                else 
+                    Console.WriteLine("We are sorry, the Restaurant you are trying to add is already in our system");
+            }while(check);
+            Restaurant sleep = SearchRestaurantID(rast);
+            System.Console.WriteLine();
+            System.Console.WriteLine($"Name: {sleep.Name} ");
+            System.Console.WriteLine($"Body: {sleep.Zipcode} ");
+            System.Console.WriteLine($"Rating: {sleep.Rating} ");
+            System.Console.WriteLine($"---------------------------");
+
+
+        }
+        private bool SearchRestaurantName(string name)
         {
            List<Restaurant> restaurants = AllRestaurants();
            foreach (var res in restaurants)
@@ -272,7 +324,7 @@ namespace UI
             return _reviewb1.AllReviews();
             //this will need to grab the name of the restaurant and name of the user for that restaurant
         }
-        private void SearchUser()
+        private void SearchUser() //to implement
         {
             // bool admin = true;
             // do
@@ -356,6 +408,86 @@ namespace UI
         //     }
         //     return null;
         // }
+        private void DisplayReviewsofRestaurants()
+        {
+            //be able to display details of reviews for a restaurant to the user
+            bool check = true; 
+            string rast = "";
+            do 
+            {
+                System.Console.WriteLine("What restaurant do you want to look up? ");
+                rast = Console.ReadLine();
+                if (SearchRestaurantName(rast) == true) //this checks if it exists, the method returns true if it does and false if it doesn't
+                    check = false;
+                else 
+                    Console.WriteLine("We are sorry, the Restaurant you are trying to add is already in our system");
+            }while(check);
+            Restaurant DRest = SearchRestaurantID(rast); //Gets the restaurant with that name, and because I already checked that its valid I don't need to check it here
+            List<Review> reviewsDRest = AllReviews(); //gets all the reviews
+            List<Review> dispreviewsDRest = new List<Review>();
+            foreach (Review revi in reviewsDRest)
+            {
+
+                if((revi.IRestuarant+1) == DRest.Id)
+                {
+                    dispreviewsDRest.Add(revi);
+                }
+            }
+
+            //gets all the reviews where the ids match from the restaurant ID to the reviews in the list
+            foreach (Review rev in dispreviewsDRest)
+            {
+                System.Console.WriteLine($"Title: {rev.Title} ");
+                System.Console.WriteLine($"Body: {rev.Body} ");
+                System.Console.WriteLine($"Rating: {rev.Rating} ");
+                System.Console.WriteLine($"---------------------------");
+            }
+        }
+        private void SearchRestaurant()
+        {
+            List<Restaurant> restaurants = AllRestaurants(); 
+            //search by name, zipcode, rating
+            string AAAAAAAAA;
+            do
+            {
+                System.Console.WriteLine("Do you want to look up via [0] Zipcode, [1] Name, or [2] Rating? ");
+                AAAAAAAAA = Console.ReadLine();
+            } while (String.IsNullOrWhiteSpace(AAAAAAAAA));
+            if (AAAAAAAAA == "0")
+            {
+                System.Console.WriteLine("The restaurants with the requested zipcode are as follows:");
+                foreach (Restaurant i in restaurants)
+                {
+                    if (i.Zipcode == AAAAAAAAA)
+                    {
+                        System.Console.WriteLine(i.Name);
+                    }
+                }
+            } else if (AAAAAAAAA == "1")
+            {
+                System.Console.WriteLine("The restaurants with the requested name are as follows:");
+                foreach (Restaurant i in restaurants)
+                {
+                    if (i.Name == AAAAAAAAA)
+                    {
+                        System.Console.WriteLine(i.Name);
+                    }
+                }
+            } else if (AAAAAAAAA == "2")
+            {
+                System.Console.WriteLine("The restaurants with the requested rating are as follows:");
+                foreach (Restaurant i in restaurants)
+                {
+                    if (i.Rating == AAAAAAAAA)
+                    {
+                        System.Console.WriteLine(i.Name);
+                    }
+                }
+            }
+            System.Console.WriteLine("---------------------------");
+            
+        }
 
     }
+
 }

@@ -59,6 +59,11 @@ namespace DL.Entities
                     .IsRequired()
                     .HasMaxLength(100)
                     .IsUnicode(false);
+                entity.Property(e => e.IRestuarant)
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+                
             });
             modelBuilder.Entity<User>(entity =>
             {

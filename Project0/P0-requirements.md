@@ -8,12 +8,12 @@
 
 - add a new user 
 - ability to search user as admin
-- display details of a restaurant for user
+- display details of a restaurant for user 1
 - add reviews to a restaurant as a user
-- view details of restaurants as a user
+- view details of restaurants as a user 1
 - view reviews of restaurants as a user
-- calculate reviews’ average rating for each restaurant 
-- search restaurant (by name, rating, zip code, etc.) 
+- calculate reviews’ average rating for each restaurant 1
+- search restaurant (by name, rating, zip code, etc.) 1
 
 ### Models 
 
@@ -27,13 +27,13 @@
 ### Additional requirements 
 - Exception Handling 
 - Input validation 
-- Logging (to a file, no logging to the console) 
-- At least 10 unit tests 
+- Logging (to a file, no logging to the console) 1
+- At least 10 unit tests 1
 - Data should be persisted, (no data should be hard coded) 
 - You should use a DB to store data 
-- DB structure should be 3NF 
-- Should have an ER Diagram 
-- Code should have xml documentation 
+- DB structure should be 3NF 1?
+- Should have an ER Diagram 1 
+- Code should have xml documentation 1
 
 ### Tech Stack 
 - C# 
