@@ -2,6 +2,7 @@ using Models;
 using BL;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace UI
 {
@@ -48,7 +49,7 @@ namespace UI
                 switch(Console.ReadLine())
                 {
                     case "0":
-                        Console.WriteLine("Thanks for using my Restaurant Review System!");
+                        Console.WriteLine("Thanks for using Scream! Remember that whenever you need to Scream into the void about a Restaurant, think about Scream!");
                         repeat = false;
                     break;
 
@@ -68,7 +69,7 @@ namespace UI
                     AddReview();
                     break;
 
-                    case "5": //search user
+                    case "5": //search user work in progress
                     SearchUser();
                     break;
 
@@ -174,23 +175,89 @@ namespace UI
                 password = Console.ReadLine();
             }while (String.IsNullOrWhiteSpace(password));
             User userToAdd;
-            userToAdd = new User(name, username, password, false);
+            userToAdd = new User(name, username, password, check);
             userToAdd = _reviewb1.AddUser(userToAdd);
-            System.Console.WriteLine($"{userToAdd.Name} was successfully added!");
+            System.Console.WriteLine($"{userToAdd.Name} was successfully added as an Admin!");
             Endofmethod: Console.WriteLine("Please choose another option!");
         }
         private void AddReview()
         {
-
+            string rest = "";
+            string title = "";
+            string body = "";
+            decimal ratinghere;
+            System.Console.WriteLine("Welcome to adding a review!");
+             do
+            {
+                System.Console.WriteLine("What Restaurant do you want to add a review for? ");
+                rest = Console.ReadLine();
+            }while (String.IsNullOrWhiteSpace(rest));
+            bool Screaming = true;
+             do
+            {
+                System.Console.WriteLine("What Review do you give this restaurant out of 5? ");
+                if (decimal.TryParse(Console.ReadLine(), out ratinghere))
+                    Screaming = false;
+            }while (Screaming);
+            do
+            {
+                System.Console.WriteLine("What title do you give this review? ");
+                title = Console.ReadLine();
+            }while (String.IsNullOrWhiteSpace(title));
+            do
+            {
+                System.Console.WriteLine("What is the content, the body, of your review? ");
+                body = Console.ReadLine();
+            }while (String.IsNullOrWhiteSpace(body));
+            Review reviewToAdd;
+            reviewToAdd = new Review(title, body, ratinghere);
+            reviewToAdd = _reviewb1.AddReview(reviewToAdd);
         }
         private void AddRestaurant()
         {
+            string rast = "";
+            bool check = true;
+            int zipcode;
+            System.Console.WriteLine("Welcome to adding a restaurant! ");
+            do 
+            {
+                System.Console.WriteLine("What's the name of the Restaurant you want to add? or press [0] to exit");
+                rast = Console.ReadLine();
+                if (SearchRestaurant(rast) == false)
+                    check = false;
+                else 
+                    Console.WriteLine("We are sorry, the Restaurant you are trying to add is already in our system");
+            }while(check);
+            check = true;
+            do
+            {
+                System.Console.WriteLine("What's the zipcode of your Restaurant? ");
+                if (int.TryParse(Console.ReadLine(), out zipcode))
+                    check = false;
+            }while(check);
+
+
 
         }
-        
         private void SearchRestaurant()
         {
            List<Restaurant> restaurants = AllRestaurants();
+           foreach (var res in restaurants)
+           {
+              
+           }
+
+        }
+        private bool SearchRestaurant(string name)
+        {
+           List<Restaurant> restaurants = AllRestaurants();
+           foreach (var res in restaurants)
+           {
+              if (res.Name == name)
+                return true;
+           }
+           return false;
+
         }
         private List<Restaurant> AllRestaurants() //helper method to return restaurants with their name, zipcode and rating
         {
@@ -207,46 +274,88 @@ namespace UI
         }
         private void SearchUser()
         {
-            
-            bool test = true;
-            do 
-            {
-                System.Console.WriteLine("Do you want to search by [0]: Username or [1]: Name or [2]: Choose a different option? ");
-                switch(Console.ReadLine())
-                {
+            // bool admin = true;
+            // do
+            // {
+            //     System.Console.WriteLine("What's your name? Or Press [0] to go back if you aren't an admin");
+            //     string name = Console.ReadLine();
+            //     if (name == "0")
+            //     {
+            //         admin = false;
+            //         goto endofsearch;
+            //     }
+            //     if (AllUsers().Where(s.Name == s.name && s.isAdmin == True).Count() == 1)
+            //         admin = false;
 
-                    case "2":
-                    test = false;
-                    break;
+            // }while(admin);
+            // start:
+            // System.Console.WriteLine("Welcome Admin!");
+            // bool test = true;
+            // string answer;
+            // User founduser;
+            // do 
+            // {
+            //     System.Console.WriteLine("Do you want to search by [0]: Username or [1]: Name or [2]: Choose a different option? ");
+            //     switch(Console.ReadLine())
+            //     {
 
-                    case "0":
-                    Search("Name");
-                    break;
+            //         case "2":
+            //         test = false;
+            //         goto endofsearch;
+            //         break;
 
-                    case "1":
-                    Search("Username");
-                    break;
+            //         case "0":
+            //         test = false;
+            //         answer = "Username"; 
+            //         break;
 
-                    default:
-                    System.Console.WriteLine("We don't understand what you just typed, please try again.");
-                    break;
-                }
-            }while(test);
-            
+            //         case "1":
+            //         test = false;
+            //         answer = "Name";
+            //         break;
 
-            System.Console.WriteLine("Returning you to the options");
+            //         default:
+            //         System.Console.WriteLine("We don't understand what you just typed, please try again.");
+            //         break;
+            //     }
+            // }while(test);
+            // if (answer == "Name")
+            //     System.Console.WriteLine("Please enter the name you want to search on ");
+            // else 
+            //     System.Console.WriteLine("Please enter the username you want to search on ");
+            //     string thisanswer = Console.ReadLine();
+            //     if(Search(thisanswer) != null)
+            //     {
+
+            //     } else {
+            //         System.Console.WriteLine(answer + " was not found, please try again.");
+            //         goto start;
+            //     }
+            //     founduser = Search(thisanswer);
+            //     System.Console.WriteLine("Here's the information from the User you found Name: {0} Username: {1}", founduser.Name, founduser.Username);
+            //     do
+            //     {
+            //         System.Console.WriteLine("Do you want to search for another User? [0]: Yes [1]: No");
+            //         string pop = Console.ReadLine();
+            //         if (pop == 1)
+            //             goto endofsearch;
+
+            //     } while(String.IsNullOrWhiteSpace(pop));
+            //     goto start;
+            // endofsearch: System.Console.WriteLine("Returning you to the options");
         }
         private List<User> AllUsers()
         {
             return _reviewb1.AllUsers();
         }
-        private void Search(string search) {
-            List<User> users = AllUsers();
-            foreach (var user in users){
-                System.Console.WriteLine(user);
-            }
-
-        }
+        // private User Search(string search) {
+        //     List<User> users = AllUsers();
+        //     foreach (var user in users){
+        //         if (user.Name == user.search || user.Username == user.search)
+        //             return user;
+        //     }
+        //     return null;
+        // }
 
     }
 }

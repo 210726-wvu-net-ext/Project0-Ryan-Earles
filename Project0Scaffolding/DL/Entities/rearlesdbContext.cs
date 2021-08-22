@@ -30,6 +30,7 @@ namespace DL.Entities
 
             modelBuilder.Entity<Restaurant>(entity =>
             {
+                entity.ToTable("Restaurant");
                 entity.Property(e => e.Name) //name of the restaurant
                     .IsRequired()
                     .HasMaxLength(100)
@@ -45,6 +46,7 @@ namespace DL.Entities
             });
             modelBuilder.Entity<Review>(entity =>
             {
+                entity.ToTable("Review");
                 entity.Property(e => e.Title)
                     .IsRequired()
                     .HasMaxLength(100)
@@ -60,6 +62,7 @@ namespace DL.Entities
             });
             modelBuilder.Entity<User>(entity =>
             {
+                entity.ToTable("User");
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(100)
@@ -79,6 +82,7 @@ namespace DL.Entities
             });
              modelBuilder.Entity<ReviewJoin>(entity =>
             {
+                entity.ToTable("ReviewJoin");
                 entity.HasOne(d => d.Restaurant)
                     .WithMany(p => p.ReviewJoins)
                     .HasForeignKey(d => d.RestaurantId)
