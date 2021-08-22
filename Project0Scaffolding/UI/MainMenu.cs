@@ -98,32 +98,13 @@ namespace UI
             } while(repeat);
         }
 
-        // private void AddACat() //add a user
-        // {
-        //     string input;
-        //     Cat catToAdd;
-
-        //     Console.WriteLine("Enter details for the cat to add");
-            
-        //     do
-        //     {
-        //         Console.WriteLine("Name: ");
-        //         input = Console.ReadLine();
-
-        //     } while(String.IsNullOrWhiteSpace(input));
-
-
-        //     catToAdd = new Cat(input);
-        //     catToAdd = _petbl.AddACat(catToAdd);
-
-        //     Console.WriteLine($"{catToAdd.Name} was successfully added!");
-        // }
         private void AddUser() 
         {
             //to ask for name, username and password
             string name;
             string username;
             string password;
+            bool check = true;
             User userToAdd;
             do
             {
@@ -133,10 +114,14 @@ namespace UI
             } while(String.IsNullOrWhiteSpace(name));
             do
             {
-                System.Console.WriteLine("What is the username? "); //check if its included in the database already
+                System.Console.WriteLine("What is the username you want for your account? "); //check if its included in the database already
                 username = Console.ReadLine();
-
-            } while(String.IsNullOrWhiteSpace(username));
+                //if username already exists, ask for another
+                if (SearchUsernameID(username) == false)
+                    check = false;
+                else
+                    System.Console.WriteLine("We are sorry, " + username + " already exists in our system. Choose a Username that doesn't exist in our system.");
+            } while(check);
             do
             {
                 System.Console.WriteLine("What is your password? "); //potentially check against good passwords
@@ -147,6 +132,16 @@ namespace UI
             userToAdd = _reviewb1.AddUser(userToAdd);
             System.Console.WriteLine($"{userToAdd.Name} was successfully added!");
 
+        }
+        private bool SearchUsernameID(string username)
+        {
+            List<User> users = AllUsers();
+            foreach (User user in users)
+            {
+                if (user.Username == username)
+                    return true;
+            }
+            return false;
         }
         private void AddAdmin()
         {
@@ -233,7 +228,7 @@ namespace UI
             Review reviewToAdd;
             Restaurant thisrestaurant = SearchRestaurantID(rast);
             int id = thisrestaurant.Id;
-            thisrestaurant.Count = thisrestaurant.Count+1;
+            thisrestaurant.Count = thisrestaurant.Count+1; //I want to change the 
             reviewToAdd = new Review(title, body, ratinghere, id);
             reviewToAdd = _reviewb1.AddReview(reviewToAdd);
             System.Console.WriteLine(reviewToAdd.IRestuarant);
@@ -327,75 +322,185 @@ namespace UI
         }
         private void SearchUser() //to implement
         {
-            // bool admin = true;
-            // do
-            // {
-            //     System.Console.WriteLine("What's your name? Or Press [0] to go back if you aren't an admin");
-            //     string name = Console.ReadLine();
-            //     if (name == "0")
-            //     {
-            //         admin = false;
-            //         goto endofsearch;
-            //     }
-            //     if (AllUsers().Where(s.Name == s.name && s.isAdmin == True).Count() == 1)
-            //         admin = false;
+            List<User> users = AllUsers();
+            //to start find out if this is an admin user
+            string username;
+            bool check = true;
+            do
+            {
+                System.Console.WriteLine("What's your username? or press [0] to exit");
+                username = Console.ReadLine();
+                if (username == "0")
+                    check = false;
+                if (SearchUserName(username) == true)
+                    check = false;
+                else
+                    System.Console.WriteLine("We are sorry " + username + " either isn't a username in our database or isn't a username that has Admin permission. Please try again.");
+            } while (check);
+            if (username == "0")
+                goto scream;
+            check = true;
+            do
+            {
+                System.Console.WriteLine("Do you want to search Users on [0] Username, [1] Name, [2] isAdmin status, or [3] Exit");
+                switch(Console.ReadLine())
+                {
+                    case "0":
+                    SearchByUsername(users);
+                    break;
 
-            // }while(admin);
-            // start:
-            // System.Console.WriteLine("Welcome Admin!");
-            // bool test = true;
-            // string answer;
-            // User founduser;
-            // do 
-            // {
-            //     System.Console.WriteLine("Do you want to search by [0]: Username or [1]: Name or [2]: Choose a different option? ");
-            //     switch(Console.ReadLine())
-            //     {
+                    case "1":
+                    SearchByName(users);
+                    break;
 
-            //         case "2":
-            //         test = false;
-            //         goto endofsearch;
-            //         break;
+                    case "2":
+                    SearchByAdmin(users);
+                    break;
 
-            //         case "0":
-            //         test = false;
-            //         answer = "Username"; 
-            //         break;
+                    case "3":
+                    check = false;
+                    break;
 
-            //         case "1":
-            //         test = false;
-            //         answer = "Name";
-            //         break;
+                    default:
+                    System.Console.WriteLine("We are sorry, we don't know what you just entered");
+                    break;
+                }
+            } while (check);
+            
+            scream: System.Console.WriteLine("Returning you to the options");
+        }
+        private void SearchByUsername(List<User> users) //searches users by username
+        {
+            startofthismethod:
+            bool check = false;
+            string annoyed;
+            System.Console.WriteLine("What username do you want to search on? ");
+            string username = Console.ReadLine();
+            foreach (User x in users)
+            {
+                if(x.Username == username)
+                {
+                    System.Console.WriteLine("This is the User you requested:");
+                    System.Console.WriteLine($"Username: {x.Username}");
+                    System.Console.WriteLine($"Name: {x.Name}");
+                    System.Console.WriteLine($"isAdmin: {x.isAdmin}");
+                    System.Console.WriteLine("-----------------------");
+                    check = true;
+                }
+            }
+            if(check == false)
+            {
+                do
+                {
+                    System.Console.WriteLine("We are sorry, we couldn't find the user " + username + ". Would you want to search again? [0] No [1] Yes");
+                    annoyed = Console.ReadLine();
+                } while (annoyed != "0" || annoyed != "1");
+                if (annoyed == "1")
+                    goto startofthismethod;
+                else
+                    goto endofmethod;
 
-            //         default:
-            //         System.Console.WriteLine("We don't understand what you just typed, please try again.");
-            //         break;
-            //     }
-            // }while(test);
-            // if (answer == "Name")
-            //     System.Console.WriteLine("Please enter the name you want to search on ");
-            // else 
-            //     System.Console.WriteLine("Please enter the username you want to search on ");
-            //     string thisanswer = Console.ReadLine();
-            //     if(Search(thisanswer) != null)
-            //     {
+            }
+            endofmethod: System.Console.WriteLine("Returning you to the search options");
+        }
+        private void SearchByName(List<User> users) //searches users by name
+        {
+            startofthismethod:
+            bool check = false;
+            string annoyed;
+            System.Console.WriteLine("What name do you want to search on? ");
+            string name = Console.ReadLine();
+            foreach (User x in users)
+            {
+                if(x.Name == name)
+                {
+                    System.Console.WriteLine("This is the User you requested:");
+                    System.Console.WriteLine($"Name: {x.Name}");
+                    System.Console.WriteLine($"Username: {x.Username}");
+                    System.Console.WriteLine($"isAdmin: {x.isAdmin}");
+                    System.Console.WriteLine("-----------------------");
+                    check = true;
+                }
+            }
+            if(check == false) //we didn't find the name
+            {
+                do
+                {
+                    System.Console.WriteLine("We are sorry, we couldn't find the name " + name + ". Would you want to search again? [0] No [1] Yes");
+                    annoyed = Console.ReadLine();
+                } while (annoyed != "0" || annoyed != "1");
+                if (annoyed == "1")
+                    goto startofthismethod; //search again on name
+                else
+                    goto endofmethod; //go back to search options
 
-            //     } else {
-            //         System.Console.WriteLine(answer + " was not found, please try again.");
-            //         goto start;
-            //     }
-            //     founduser = Search(thisanswer);
-            //     System.Console.WriteLine("Here's the information from the User you found Name: {0} Username: {1}", founduser.Name, founduser.Username);
-            //     do
-            //     {
-            //         System.Console.WriteLine("Do you want to search for another User? [0]: Yes [1]: No");
-            //         string pop = Console.ReadLine();
-            //         if (pop == 1)
-            //             goto endofsearch;
+            }
+            endofmethod: System.Console.WriteLine("Returning you to the search options");
 
-            //     } while(String.IsNullOrWhiteSpace(pop));
-            //     goto start;
-            // endofsearch: System.Console.WriteLine("Returning you to the options");
+        }
+        private void SearchByAdmin(List<User> users) //searches users by if they are an Admin
+        {
+            startofthismethod:
+            bool answer = true;
+            string admin;
+            bool sp = true;
+            string annoyed;
+            do
+            {
+                System.Console.WriteLine("Enter True to search for Users who are Admins and False to search for Users who aren't Admin ");
+                admin = Console.ReadLine();
+                if (admin == "True")
+                {
+                    sp = false;
+                    answer = true;
+                }
+                else if (admin == "False")
+                {
+                    sp = false;
+                    answer = false;
+                }
+                else 
+                    System.Console.WriteLine($"{admin} is not True or False. Please enter a valid input");
+                
+            } while (sp);
+            foreach (User x in users)
+            {
+                if(x.isAdmin == answer)
+                {
+                    System.Console.WriteLine("This is the User you requested:");
+                    System.Console.WriteLine($"Name: {x.Name}");
+                    System.Console.WriteLine($"Username: {x.Username}");
+                    System.Console.WriteLine($"isAdmin: {x.isAdmin}");
+                    System.Console.WriteLine("------------------------");
+                }
+            }
+            sp = true;
+            do
+            {
+                System.Console.WriteLine("Do you want to search again? [0] No [1] Yes");
+                annoyed = Console.ReadLine();
+                if (annoyed == "0")
+                    sp = false;
+                else if (annoyed == "1")
+                    sp = false;
+                else 
+                    System.Console.WriteLine($"{annoyed} is not a 0 or a 1. Please enter a valid input");    
+            } while (sp);
+            if (annoyed == "1")
+                goto startofthismethod;
+            System.Console.WriteLine("Returning you to the search options");
+
+        }
+        private bool SearchUserName(string username)//takes a username and checks if that username is an admin
+        {
+           List<User> users = AllUsers();
+           foreach (var user in users)
+           {
+              if (user.Username == username && user.isAdmin == true) //if that username exists and that user is an admin return true, otherwise return false. 
+                return true;
+           }
+           return false;
+
         }
         private List<User> AllUsers()
         {
@@ -487,6 +592,47 @@ namespace UI
             }
             System.Console.WriteLine("---------------------------");
             
+        }
+        private void SeeReviewRating()
+        {
+            startof:
+            decimal count = 0;
+            int i = 0;
+            string answer = "";
+            //calculate reviews’ average rating for each restaurant
+            do
+            {
+                System.Console.WriteLine("What restaurant do you want to see the Review Rating for? ");
+                answer = Console.ReadLine();
+            } while (SearchRestaurantName(answer));
+            Restaurant restaurant = SearchRestaurantID(answer);
+            List<Review> reviews = AllReviews();
+            foreach (Review review in reviews)
+            {
+                if (review.IRestuarant == restaurant.Id)
+                {
+                    count = (count + review.Rating); 
+                    i++;
+                }
+            }
+            decimal rating = count/i;
+            System.Console.WriteLine($"{rating} is the rating of {answer}");
+            bool Revature = true;
+            string Tired = "";
+            do
+            {
+                System.Console.WriteLine("Do you want to look for another Restaurant? [0] No [1] Yes");
+                Tired = Console.ReadLine();
+                if (Tired == "0")
+                    Revature = false;
+                else if (Tired == "1")
+                    Revature = false;
+                else 
+                    System.Console.WriteLine("We are sorry but, " + Tired + ", is not a 0 or a 1, try again");
+            } while (Revature);
+            if (Tired == "1")
+                goto startof;
+            System.Console.WriteLine("Returning to options");
         }
 
     }
