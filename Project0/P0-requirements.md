@@ -27,13 +27,13 @@
 ### Additional requirements 
 - Exception Handling 
 - Input validation 
-- Logging (to a file, no logging to the console) 1
-- At least 10 unit tests 1
+- Logging (to a file, no logging to the console) 
+- At least 10 unit tests 
 - Data should be persisted, (no data should be hard coded) 
 - You should use a DB to store data 
-- DB structure should be 3NF 1?
-- Should have an ER Diagram 1 
-- Code should have xml documentation 1
+- DB structure should be 3NF 
+- Should have an ER Diagram 
+- Code should have xml documentation 
 
 ### Tech Stack 
 - C# 
