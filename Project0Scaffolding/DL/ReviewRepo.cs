@@ -16,7 +16,7 @@ namespace DL
         public List<Models.Restaurant> AllRestaurants()
         {
             return _context.Restaurants.Select(
-                Restaurant => new Models.Restaurant(Restaurant.Name, Restaurant.Id, Restaurant.Zipcode, Restaurant.Rating, Restaurant.Count) //id name, zipcode, rating, 
+                Restaurant => new Models.Restaurant(Restaurant.Name, Restaurant.Id, Restaurant.Zipcode, Restaurant.Rating, Restaurant.Cnt) //id name, zipcode, rating, 
             ).ToList();
         }
         public List<Models.Review> AllReviews()
@@ -28,7 +28,7 @@ namespace DL
         public List<Models.User> AllUsers()
         {
             return _context.Users.Select(
-                User => new Models.User(User.Id, User.Name, User.Username, User.Password, User.isAdmin) //id, name, username, password, isadmin
+                User => new Models.User(User.Id, User.Name, User.Username, User.Password, User.IsAdmin) //id, name, username, password, isadmin
             ).ToList();
         }
         public Models.Restaurant AddRestaurant(Models.Restaurant restaurant) 
@@ -39,7 +39,7 @@ namespace DL
                     Name = restaurant.Name,
                     Zipcode = restaurant.Zipcode,
                     Rating = restaurant.Rating,
-                    Count = restaurant.Count
+                    Cnt = restaurant.Cnt
                 }
             );
             _context.SaveChanges();
@@ -52,7 +52,7 @@ namespace DL
                 new Entities.Review{
                     Id = review.Id,
                     Title = review.Title,
-                    Body = review.Body,
+                    Body = review.Body, 
                     Rating = review.Rating,
                     IRestuarant = review.IRestuarant
                 }
@@ -69,7 +69,7 @@ namespace DL
                     Name = user.Name,
                     Username = user.Username,
                     Password = user.Password,
-                    isAdmin = user.isAdmin
+                    IsAdmin = user.isAdmin
                 }
             );
             _context.SaveChanges();

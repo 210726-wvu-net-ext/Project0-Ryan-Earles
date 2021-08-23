@@ -228,7 +228,7 @@ namespace UI
             Review reviewToAdd;
             Restaurant thisrestaurant = SearchRestaurantID(rast);
             int id = thisrestaurant.Id;
-            thisrestaurant.Count = thisrestaurant.Count+1; //I want to change the 
+            thisrestaurant.Cnt = thisrestaurant.Cnt+1; //I want to change the 
             reviewToAdd = new Review(title, body, ratinghere, id);
             reviewToAdd = _reviewb1.AddReview(reviewToAdd);
             System.Console.WriteLine(reviewToAdd.IRestuarant);
@@ -551,9 +551,11 @@ namespace UI
         }
         private void SearchRestaurant()
         {
+            start:
             List<Restaurant> restaurants = AllRestaurants(); 
             //search by name, zipcode, rating
             string AAAAAAAAA;
+            string answer;
             do
             {
                 System.Console.WriteLine("Do you want to look up via [0] Zipcode, [1] Name, or [2] Rating? ");
@@ -561,37 +563,79 @@ namespace UI
             } while (String.IsNullOrWhiteSpace(AAAAAAAAA));
             if (AAAAAAAAA == "0")
             {
+                do
+                {
+                    System.Console.WriteLine("what is the zipcode you wnat to search on? ");
+                    answer = Console.ReadLine();
+                } while (String.IsNullOrEmpty(answer));
+
                 System.Console.WriteLine("The restaurants with the requested zipcode are as follows:");
                 foreach (Restaurant i in restaurants)
                 {
-                    if (i.Zipcode.ToString() == AAAAAAAAA)
+                    if (i.Zipcode.ToString() == answer)
                     {
+                        System.Console.WriteLine("---------------------------");
                         System.Console.WriteLine(i.Name);
+                        System.Console.WriteLine(i.Zipcode);
+                        System.Console.WriteLine(i.Rating);
+                        System.Console.WriteLine("---------------------------");
                     }
                 }
             } else if (AAAAAAAAA == "1")
             {
+                 do
+                {
+                    System.Console.WriteLine("what is the name you want to search on? ");
+                    answer = Console.ReadLine();
+                } while (String.IsNullOrEmpty(answer));
                 System.Console.WriteLine("The restaurants with the requested name are as follows:");
                 foreach (Restaurant i in restaurants)
                 {
-                    if (i.Name == AAAAAAAAA)
+                    if (i.Name == answer)
                     {
+                        System.Console.WriteLine("---------------------------");
                         System.Console.WriteLine(i.Name);
+                        System.Console.WriteLine(i.Zipcode);
+                        System.Console.WriteLine(i.Rating);
+                        System.Console.WriteLine("---------------------------");
                     }
                 }
             } else if (AAAAAAAAA == "2")
             {
+                 do
+                {
+                    System.Console.WriteLine("what is the rating you want to search on? ");
+                    answer = Console.ReadLine();
+                } while (String.IsNullOrEmpty(answer));
                 System.Console.WriteLine("The restaurants with the requested rating are as follows:");
                 foreach (Restaurant i in restaurants)
                 {
-                    if (i.Rating.ToString() == AAAAAAAAA)
+                    if (i.Rating.ToString() == answer)
                     {
+                        System.Console.WriteLine("---------------------------");
                         System.Console.WriteLine(i.Name);
+                        System.Console.WriteLine(i.Zipcode);
+                        System.Console.WriteLine(i.Rating);
+                        System.Console.WriteLine("---------------------------");
                     }
                 }
             }
-            System.Console.WriteLine("---------------------------");
-            
+            bool check = true;
+            string hello;
+            do
+            {
+                System.Console.WriteLine("Do you want to search again? [0] No or [1] Yes");
+                hello = Console.ReadLine();
+                if (hello == "0")
+                    check = false;
+                else if (hello == "1")
+                    check = false;
+                else
+                    System.Console.WriteLine("Please enter a valid input of either [0] or [1]");
+            } while (check);
+            if (hello == "1")
+                goto start;
+            System.Console.WriteLine("Returning you to the options");
         }
         private void SeeReviewRating()
         {
@@ -634,6 +678,8 @@ namespace UI
                 goto startof;
             System.Console.WriteLine("Returning to options");
         }
+        //potential join method for ReviewJoin?
+
 
     }
 

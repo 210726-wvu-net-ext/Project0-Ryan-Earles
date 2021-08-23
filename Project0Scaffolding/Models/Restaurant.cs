@@ -10,14 +10,14 @@ namespace Models
             this.Name = name;
             this.Zipcode = zipcode;
             this.Rating = rating; 
-            this.Count = count; 
+            this.Cnt = count; 
         }
         public Restaurant(string name, int id, int zipcode, decimal rating, int count) : this(name, zipcode, rating, count)
         {
             this.Id = id;
         }
         //look into how this is set up
-        public int Count { get; set; }
+        public int Cnt { get; set; }
         public int Id {get; set;}
         public string Name {get;set;}
         public int Zipcode{ get; set; }
