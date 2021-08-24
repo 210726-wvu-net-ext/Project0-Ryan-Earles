@@ -22,7 +22,7 @@ namespace DL
         public List<Models.Review> AllReviews()
         {
             return _context.Reviews.Select(
-                Review => new Models.Review(Review.Id, Review.Title, Review.Body, Review.Rating, Review.IRestuarant) //id, title, body, rating
+                Review => new Models.Review(Review.Id, Review.Title, Review.Body, Review.Rating, Review.Irestuarant) //id, title, body, rating
             ).ToList();
         }
         public List<Models.User> AllUsers()
@@ -54,7 +54,7 @@ namespace DL
                     Title = review.Title,
                     Body = review.Body, 
                     Rating = review.Rating,
-                    IRestuarant = review.IRestuarant
+                    Irestuarant = review.Irestuarant
                 }
             );
             _context.SaveChanges();

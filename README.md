@@ -27,8 +27,8 @@
 ### Additional requirements 
 - Exception Handling 
 - Input validation 
-- Logging (to a file, no logging to the console) 
-- At least 10 unit tests 
+- Logging (to a file, no logging to the console) 1
+- At least 10 unit tests 1
 - Data should be persisted, (no data should be hard coded) 
 - You should use a DB to store data 
 - DB structure should be 3NF 

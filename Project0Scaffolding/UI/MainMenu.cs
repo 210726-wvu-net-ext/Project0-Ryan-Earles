@@ -97,7 +97,9 @@ namespace UI
                 }
             } while(repeat);
         }
-
+        /// <summary>
+        /// This adds a user to the database 
+        /// </summary>
         private void AddUser() 
         {
             //to ask for name, username and password
@@ -131,8 +133,14 @@ namespace UI
             userToAdd = new User(name, username, password, false);
             userToAdd = _reviewb1.AddUser(userToAdd);
             System.Console.WriteLine($"{userToAdd.Name} was successfully added!");
+            System.Console.WriteLine("Returning you to the options");
 
         }
+        /// <summary>
+        /// This takes a username, finds all the users in the database and returns true if the user with the certain username exists or false if not
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns>True if string username exists, False if string username doesn't exist</returns>
         private bool SearchUsernameID(string username)
         {
             List<User> users = AllUsers();
@@ -143,6 +151,9 @@ namespace UI
             }
             return false;
         }
+        /// <summary>
+        /// This first asks for the default admin password and then adds a user as an admin with changing the default password for them. 
+        /// </summary>
         private void AddAdmin()
         {
             //to ask for default password, if its correct, ask for username and password
@@ -185,6 +196,9 @@ namespace UI
             System.Console.WriteLine($"{userToAdd.Name} was successfully added as an Admin!");
             Endofmethod: Console.WriteLine("Please choose another option!");
         }
+        /// <summary>
+        /// This adds a review to the database, but first checks if the Restaurant exists in the database
+        /// </summary>
         private void AddReview()
         {
             string rast = "";
@@ -193,6 +207,14 @@ namespace UI
             decimal ratinghere;
             bool check = true;
             System.Console.WriteLine("Welcome to adding a review!");
+            System.Console.WriteLine("Here's a list of Restaurants available to review.");
+            List<Restaurant> restaurants = AllRestaurants();
+            foreach (Restaurant restaurant in restaurants)
+            {
+                System.Console.WriteLine(restaurant.Name);
+                System.Console.WriteLine(" ");
+                
+            }
            do 
             {
                 System.Console.WriteLine("What's the name of the Restaurant you want to add a review for? or press [0] to exit");
@@ -231,10 +253,13 @@ namespace UI
             thisrestaurant.Cnt = thisrestaurant.Cnt+1; //I want to change the 
             reviewToAdd = new Review(title, body, ratinghere, id);
             reviewToAdd = _reviewb1.AddReview(reviewToAdd);
-            System.Console.WriteLine(reviewToAdd.IRestuarant);
+            System.Console.WriteLine(reviewToAdd.Irestuarant);
             System.Console.WriteLine($"The Review with the title of {reviewToAdd.Title} has successfully been added!");
             endofadd: System.Console.WriteLine("Returning to options");
         }
+        /// <summary>
+        /// This adds a Restaurant into the database
+        /// </summary>
         private void AddRestaurant()
         {
             string rast = "";
@@ -262,6 +287,11 @@ namespace UI
             AddRestaurant = _reviewb1.AddRestaurant(AddRestaurant);
             System.Console.WriteLine($"{AddRestaurant.Name} was successfully added as a Restaurant in the system!");
         }
+        /// <summary>
+        /// This returns a Restaurant with the given name and null if it is not found. 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns>Restaurant at given name</returns>
         private Restaurant SearchRestaurantID(string name)
         {
            List<Restaurant> restaurants = AllRestaurants();
@@ -273,7 +303,10 @@ namespace UI
            return null;
 
         }
-        private void DisplayRestaurant() //to implement. 
+        /// <summary>
+        /// This method displays the restaurant that the user requests information for.  
+        /// </summary>
+        private void DisplayRestaurant() 
         {
             //display details of restaurant to user
             string rast = "";
@@ -285,7 +318,7 @@ namespace UI
                 if (SearchRestaurantName(rast) == true) //this checks if it exists, the method returns true if it does and false if it doesn't
                     check = false;
                 else 
-                    Console.WriteLine("We are sorry, the Restaurant you are trying to add is already in our system");
+                    Console.WriteLine("We are sorry, the Restaurant you are asking for is not apart of our database. Please try again.");
             }while(check);
             Restaurant sleep = SearchRestaurantID(rast);
             System.Console.WriteLine();
@@ -296,6 +329,11 @@ namespace UI
 
 
         }
+        /// <summary>
+        /// This method takes a name and returns if a Restaurant exists with that name
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns>True if Restaurant exists or False if it doesn't exist.</returns>
         private bool SearchRestaurantName(string name)
         {
            List<Restaurant> restaurants = AllRestaurants();
@@ -307,25 +345,33 @@ namespace UI
            return false;
 
         }
-        private List<Restaurant> AllRestaurants() //helper method to return restaurants with their name, zipcode and rating
+        /// <summary>
+        /// helper method to return restaurants with their name, zipcode and rating 
+        /// </summary>
+        /// <returns>List of all Restaurants</returns>
+        private List<Restaurant> AllRestaurants() 
         {
             return _reviewb1.AllRestaurants();
         }
-        private void SearchReview()
-        {
-            List<Review> reviews = AllReviews();
-        }
+        /// <summary>
+        /// Helper method to return all Reviews with their attached information
+        /// </summary>
+        /// <returns></returns>
         private List<Review> AllReviews() //helper method to return reviews with title, body, rating, name, restaurant name
         {
             return _reviewb1.AllReviews();
             //this will need to grab the name of the restaurant and name of the user for that restaurant
         }
+        /// <summary>
+        /// Allows Admin to search Users
+        /// </summary>
         private void SearchUser() //to implement
         {
             List<User> users = AllUsers();
             //to start find out if this is an admin user
             string username;
             bool check = true;
+            System.Console.WriteLine("This option is meant for Admin users only");
             do
             {
                 System.Console.WriteLine("What's your username? or press [0] to exit");
@@ -369,6 +415,10 @@ namespace UI
             
             scream: System.Console.WriteLine("Returning you to the options");
         }
+        /// <summary>
+        /// Helper method to search by Username
+        /// </summary>
+        /// <param > List of Users</param>
         private void SearchByUsername(List<User> users) //searches users by username
         {
             startofthismethod:
@@ -403,6 +453,10 @@ namespace UI
             }
             endofmethod: System.Console.WriteLine("Returning you to the search options");
         }
+        /// <summary>
+        /// Helper method to search by name
+        /// </summary>
+        /// <param List of Users></param>
         private void SearchByName(List<User> users) //searches users by name
         {
             startofthismethod:
@@ -438,6 +492,10 @@ namespace UI
             endofmethod: System.Console.WriteLine("Returning you to the search options");
 
         }
+        /// <summary>
+        /// Helper method to search by if someone is an admin
+        /// </summary>
+        /// <param List of Users="users"></param>
         private void SearchByAdmin(List<User> users) //searches users by if they are an Admin
         {
             startofthismethod:
@@ -491,6 +549,11 @@ namespace UI
             System.Console.WriteLine("Returning you to the search options");
 
         }
+        /// <summary>
+        /// Helper method to search by Username
+        /// </summary>
+        /// <param username="username"></param>
+        /// <returns></returns>
         private bool SearchUserName(string username)//takes a username and checks if that username is an admin
         {
            List<User> users = AllUsers();
@@ -506,14 +569,9 @@ namespace UI
         {
             return _reviewb1.AllUsers();
         }
-        // private User Search(string search) {
-        //     List<User> users = AllUsers();
-        //     foreach (var user in users){
-        //         if (user.Name == user.search || user.Username == user.search)
-        //             return user;
-        //     }
-        //     return null;
-        // }
+        /// <summary>
+        /// Displays all of the reviews for a restaurant
+        /// </summary>
         private void DisplayReviewsofRestaurants()
         {
             //be able to display details of reviews for a restaurant to the user
@@ -534,7 +592,7 @@ namespace UI
             foreach (Review revi in reviewsDRest)
             {
 
-                if((revi.IRestuarant+1) == DRest.Id)
+                if((revi.Irestuarant+1) == DRest.Id)
                 {
                     dispreviewsDRest.Add(revi);
                 }
@@ -549,6 +607,9 @@ namespace UI
                 System.Console.WriteLine($"---------------------------");
             }
         }
+        /// <summary>
+        /// Search for a restaurant by Name, Rating and Zipcode
+        /// </summary>
         private void SearchRestaurant()
         {
             start:
@@ -637,6 +698,9 @@ namespace UI
                 goto start;
             System.Console.WriteLine("Returning you to the options");
         }
+        /// <summary>
+        /// Prints out the Review Rating for the wanted Restaurant
+        /// </summary>
         private void SeeReviewRating()
         {
             startof:
@@ -653,13 +717,15 @@ namespace UI
             List<Review> reviews = AllReviews();
             foreach (Review review in reviews)
             {
-                if (review.IRestuarant == restaurant.Id)
+                if (review.Irestuarant == restaurant.Id)
                 {
                     count = (count + review.Rating); 
                     i++;
                 }
             }
             decimal rating = count/i;
+            Restaurant restraurant = SearchRestaurantID(answer);
+            restaurant.Rating = Rating;
             System.Console.WriteLine($"{rating} is the rating of {answer}");
             bool Revature = true;
             string Tired = "";
@@ -678,7 +744,11 @@ namespace UI
                 goto startof;
             System.Console.WriteLine("Returning to options");
         }
-        //potential join method for ReviewJoin?
+        //potential join method for ReviewJoin? Include id of Review, id of User, id of Restaurant.
+        private void AddReviewJoin()
+        {
+
+        }
 
 
     }

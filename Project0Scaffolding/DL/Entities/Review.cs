@@ -11,6 +11,6 @@ namespace DL.Entities
         public string Title { get; set; }
         public string Body { get; set; }
         public decimal Rating { get; set; }
-        public int IRestuarant { get; set; }
+        public int Irestuarant { get; set; }
     }
 }

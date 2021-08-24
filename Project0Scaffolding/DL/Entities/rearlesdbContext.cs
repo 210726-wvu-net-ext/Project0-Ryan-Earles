@@ -22,6 +22,7 @@ namespace DL.Entities
         public virtual DbSet<User> Users { get; set; }
 
         
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
@@ -49,7 +50,7 @@ namespace DL.Entities
                     .HasMaxLength(1000)
                     .IsUnicode(false);
 
-                entity.Property(e => e.IRestuarant).HasColumnName("IRestuarant");
+                entity.Property(e => e.Irestuarant).HasColumnName("IRestuarant");
 
                 entity.Property(e => e.Rating).HasColumnType("decimal(2, 1)");
 
