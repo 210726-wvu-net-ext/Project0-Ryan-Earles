@@ -199,14 +199,28 @@ namespace UI
         /// <summary>
         /// This adds a review to the database, but first checks if the Restaurant exists in the database
         /// </summary>
-        private void AddReview()
+        private void AddReview()// I want to take the user information here too. Make the connection in the ReviewJoin table here. 
         {
+            string username = "";
             string rast = "";
             string title = "";
             string body = "";
             decimal ratinghere;
             bool check = true;
+            bool u = true;
+            User user;
             System.Console.WriteLine("Welcome to adding a review!");
+
+            do 
+            {
+                System.Console.WriteLine("What is your Username? ");
+                username = Console.ReadLine();
+                user = SearchUserID(username);
+                if (user == null)
+                    System.Console.WriteLine($"We are sorry, the username {username} is not in our database. Select a different username");
+                else
+                    u = false;
+            }while(u);
             System.Console.WriteLine("Here's a list of Restaurants available to review.");
             List<Restaurant> restaurants = AllRestaurants();
             foreach (Restaurant restaurant in restaurants)
@@ -249,13 +263,26 @@ namespace UI
             }while (String.IsNullOrWhiteSpace(body));
             Review reviewToAdd;
             Restaurant thisrestaurant = SearchRestaurantID(rast);
-            int id = thisrestaurant.Id;
-            thisrestaurant.Cnt = thisrestaurant.Cnt+1; //I want to change the 
-            reviewToAdd = new Review(title, body, ratinghere, id);
+            int rid = thisrestaurant.Id;
+            int uid = user.Id;
+            reviewToAdd = new Review(title, body, ratinghere);
             reviewToAdd = _reviewb1.AddReview(reviewToAdd);
-            System.Console.WriteLine(reviewToAdd.Irestuarant);
+            int reid = reviewToAdd.Id;
+            ReviewJoin reviewjoins;
+            reviewjoins = new ReviewJoin(rid, uid, reid);
+            reviewjoins = _reviewb1.AddReviewJoin(reviewjoins);
             System.Console.WriteLine($"The Review with the title of {reviewToAdd.Title} has successfully been added!");
             endofadd: System.Console.WriteLine("Returning to options");
+        }
+        private User SearchUserID(string username) 
+        {
+            List<User> users = AllUsers();
+            foreach (User user in users)
+            {
+                if (user.Username == username)
+                    return user;
+            }
+            return null;
         }
         /// <summary>
         /// This adds a Restaurant into the database
@@ -283,10 +310,11 @@ namespace UI
                     check = false;
             }while(check);
             Restaurant AddRestaurant;
-            AddRestaurant = new Restaurant(rast, zipcode, 0, 0);
+            AddRestaurant = new Restaurant(rast, zipcode, 0);
             AddRestaurant = _reviewb1.AddRestaurant(AddRestaurant);
             System.Console.WriteLine($"{AddRestaurant.Name} was successfully added as a Restaurant in the system!");
         }
+
         /// <summary>
         /// This returns a Restaurant with the given name and null if it is not found. 
         /// </summary>
@@ -438,13 +466,16 @@ namespace UI
                     check = true;
                 }
             }
+            bool o = true;
             if(check == false)
             {
                 do
                 {
                     System.Console.WriteLine("We are sorry, we couldn't find the user " + username + ". Would you want to search again? [0] No [1] Yes");
                     annoyed = Console.ReadLine();
-                } while (annoyed != "0" || annoyed != "1");
+                    if (annoyed == "0" || annoyed == "1")
+                        o = false;
+                } while (o);
                 if (annoyed == "1")
                     goto startofthismethod;
                 else
@@ -476,13 +507,16 @@ namespace UI
                     check = true;
                 }
             }
+            bool o = true;
             if(check == false) //we didn't find the name
             {
                 do
                 {
                     System.Console.WriteLine("We are sorry, we couldn't find the name " + name + ". Would you want to search again? [0] No [1] Yes");
                     annoyed = Console.ReadLine();
-                } while (annoyed != "0" || annoyed != "1");
+                    if (annoyed == "0" || annoyed == "1")
+                        o = false;
+                } while (o);
                 if (annoyed == "1")
                     goto startofthismethod; //search again on name
                 else
@@ -585,27 +619,27 @@ namespace UI
                     check = false;
                 else 
                     Console.WriteLine("We are sorry, the Restaurant you are trying to add is already in our system");
-            }while(check);
-            Restaurant DRest = SearchRestaurantID(rast); //Gets the restaurant with that name, and because I already checked that its valid I don't need to check it here
-            List<Review> reviewsDRest = AllReviews(); //gets all the reviews
-            List<Review> dispreviewsDRest = new List<Review>();
-            foreach (Review revi in reviewsDRest)
+            }while(check);//to implement
+            //get all reviews, go through them and check id where ReviewJoin.Restaurantid matches Restaurant Id
+            Restaurant restaurant = SearchRestaurantID(rast);
+            List<Review> reviews = AllReviews();
+            List<ReviewJoin> reviewjoin = AllReviewJoin();
+            List<ReviewJoin> r = new List<ReviewJoin>();
+            foreach (ReviewJoin rj in reviewjoin)
             {
-
-                if((revi.Irestuarant+1) == DRest.Id)
-                {
-                    dispreviewsDRest.Add(revi);
-                }
+                if(rj.RestaurantId == restaurant.Id)
+                    r.Add(rj);
             }
-
-            //gets all the reviews where the ids match from the restaurant ID to the reviews in the list
-            foreach (Review rev in dispreviewsDRest)
+            foreach (ReviewJoin j in r)
             {
-                System.Console.WriteLine($"Title: {rev.Title} ");
-                System.Console.WriteLine($"Body: {rev.Body} ");
-                System.Console.WriteLine($"Rating: {rev.Rating} ");
-                System.Console.WriteLine($"---------------------------");
+                
+                System.Console.WriteLine("---------------------------");
+                System.Console.WriteLine(reviews[j.ReviewId].Title);
+                System.Console.WriteLine(reviews[j.ReviewId].Body);
+                System.Console.WriteLine(reviews[j.ReviewId].Rating);
+                System.Console.WriteLine("---------------------------");
             }
+           
         }
         /// <summary>
         /// Search for a restaurant by Name, Rating and Zipcode
@@ -701,7 +735,7 @@ namespace UI
         /// <summary>
         /// Prints out the Review Rating for the wanted Restaurant
         /// </summary>
-        private void SeeReviewRating()
+        private void SeeReviewRating()//reimplement
         {
             startof:
             decimal count = 0;
@@ -715,17 +749,24 @@ namespace UI
             } while (SearchRestaurantName(answer));
             Restaurant restaurant = SearchRestaurantID(answer);
             List<Review> reviews = AllReviews();
-            foreach (Review review in reviews)
+            List<ReviewJoin> reviewjoin = AllReviewJoin();
+            List<ReviewJoin> r = new List<ReviewJoin>();
+            foreach (ReviewJoin rj in reviewjoin)
             {
-                if (review.Irestuarant == restaurant.Id)
-                {
-                    count = (count + review.Rating); 
-                    i++;
-                }
+                if (restaurant.Id == rj.RestaurantId)
+                    r.Add(rj);
+            }
+            //r is a list of all the reviewjoins for restaurant restaurant
+            //foreach reviewjoin in r ask it to grab the review from that
+            foreach (ReviewJoin j in r)
+            {
+                Review tempreview = reviews[j.ReviewId];
+                count = count + tempreview.Rating;
+                i++;
             }
             decimal rating = count/i;
             Restaurant restraurant = SearchRestaurantID(answer);
-            restaurant.Rating = Rating;
+            restaurant.Rating = rating;
             System.Console.WriteLine($"{rating} is the rating of {answer}");
             bool Revature = true;
             string Tired = "";
@@ -745,7 +786,16 @@ namespace UI
             System.Console.WriteLine("Returning to options");
         }
         //potential join method for ReviewJoin? Include id of Review, id of User, id of Restaurant.
-        private void AddReviewJoin()
+       /// <summary>
+        /// Helper method to return all ReviewJoin matches
+        /// </summary>
+        /// <returns></returns>
+        private List<ReviewJoin> AllReviewJoin() //helper method to return reviews with title, body, rating, name, restaurant name
+        {
+            return _reviewb1.AllReviewJoin();
+            //this will need to grab the name of the restaurant and name of the user for that restaurant
+        }
+        private void SearchReview()
         {
 
         }

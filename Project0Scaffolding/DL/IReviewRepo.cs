@@ -12,11 +12,15 @@ namespace DL
 
         Review AddReview(Review review);
 
+        ReviewJoin AddReviewJoin(ReviewJoin reviewjoin);
+
         List<User> AllUsers();
 
         List<Restaurant> AllRestaurants();
 
         List<Review> AllReviews();
+
+        List<ReviewJoin> AllReviewJoin();
 
     }
 }

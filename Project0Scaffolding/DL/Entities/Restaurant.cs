@@ -11,6 +11,5 @@ namespace DL.Entities
         public string Name { get; set; }
         public int Zipcode { get; set; }
         public decimal Rating { get; set; }
-        public int Cnt { get; set; }
     }
 }

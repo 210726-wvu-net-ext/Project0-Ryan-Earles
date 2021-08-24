@@ -17,6 +17,10 @@ namespace BL
         {
             return _repo.AddUser(user);
         }
+        public ReviewJoin AddReviewJoin(ReviewJoin reviewjoin)
+        {
+            return _repo.AddReviewJoin(reviewjoin);
+        }
 
         public Restaurant AddRestaurant(Restaurant restaurant)
         {
@@ -39,6 +43,10 @@ namespace BL
         public List<Review> AllReviews()
         {
             return _repo.AllReviews();
+        }
+        public List<ReviewJoin> AllReviewJoin()
+        {
+            return _repo.AllReviewJoin();
         }
     }
 }

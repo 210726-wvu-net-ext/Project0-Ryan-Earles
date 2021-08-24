@@ -16,19 +16,25 @@ namespace DL
         public List<Models.Restaurant> AllRestaurants()
         {
             return _context.Restaurants.Select(
-                Restaurant => new Models.Restaurant(Restaurant.Name, Restaurant.Id, Restaurant.Zipcode, Restaurant.Rating, Restaurant.Cnt) //id name, zipcode, rating, 
+                Restaurant => new Models.Restaurant(Restaurant.Name, Restaurant.Id, Restaurant.Zipcode, Restaurant.Rating) //id name, zipcode, rating, 
             ).ToList();
         }
         public List<Models.Review> AllReviews()
         {
             return _context.Reviews.Select(
-                Review => new Models.Review(Review.Id, Review.Title, Review.Body, Review.Rating, Review.Irestuarant) //id, title, body, rating
+                Review => new Models.Review(Review.Id, Review.Title, Review.Body, Review.Rating) //id, title, body, rating
             ).ToList();
         }
         public List<Models.User> AllUsers()
         {
             return _context.Users.Select(
                 User => new Models.User(User.Id, User.Name, User.Username, User.Password, User.IsAdmin) //id, name, username, password, isadmin
+            ).ToList();
+        }
+        public List<Models.ReviewJoin> AllReviewJoin()
+        {
+            return _context.ReviewJoins.Select(
+                ReviewJoin => new Models.ReviewJoin(ReviewJoin.RestaurantId, ReviewJoin.ReviewId, ReviewJoin.UserId) //id, name, username, password, isadmin
             ).ToList();
         }
         public Models.Restaurant AddRestaurant(Models.Restaurant restaurant) 
@@ -39,7 +45,6 @@ namespace DL
                     Name = restaurant.Name,
                     Zipcode = restaurant.Zipcode,
                     Rating = restaurant.Rating,
-                    Cnt = restaurant.Cnt
                 }
             );
             _context.SaveChanges();
@@ -54,7 +59,6 @@ namespace DL
                     Title = review.Title,
                     Body = review.Body, 
                     Rating = review.Rating,
-                    Irestuarant = review.Irestuarant
                 }
             );
             _context.SaveChanges();
@@ -75,6 +79,20 @@ namespace DL
             _context.SaveChanges();
 
             return user;
+        }
+        public Models.ReviewJoin AddReviewJoin(Models.ReviewJoin reviewjoin) //id, name, username, password, isadmin
+        {
+            _context.ReviewJoins.Add(
+                new Entities.ReviewJoin{
+                    Id = reviewjoin.Id,
+                    RestaurantId = reviewjoin.RestaurantId,
+                    ReviewId = reviewjoin.ReviewId,
+                    UserId = reviewjoin.UserId
+                }
+            );
+            _context.SaveChanges();
+
+            return reviewjoin;
         }
         
     }
