@@ -3,6 +3,7 @@ using BL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Serilog;
 
 namespace UI
 {
@@ -13,6 +14,12 @@ namespace UI
         public MainMenu(IReviewBL bl) //called from Program.cs line 22
         {
             _reviewb1 = bl;
+            Log.Logger=new LoggerConfiguration()
+                            .MinimumLevel.Debug()
+                            .WriteTo.Console()
+                            .WriteTo.File("../logs/petlogs.txt", rollingInterval:RollingInterval.Day)
+                            .CreateLogger();
+            Log.Information("UI begining");
         }
 
         public void Start() //this is called from Program.cs line 23
@@ -131,7 +138,18 @@ namespace UI
 
             } while(String.IsNullOrWhiteSpace(password));
             userToAdd = new User(name, username, password, false);
-            userToAdd = _reviewb1.AddUser(userToAdd);
+             try
+                {
+                    userToAdd = _reviewb1.AddUser(userToAdd);
+                    Log.Debug("user has been added! " + userToAdd.Name);
+                }
+                catch (Exception ex)
+                {
+                    Log.Error(ex, "User has not been added! " + userToAdd.Name);
+                }
+                finally{
+                    Log.CloseAndFlush();
+                }
             System.Console.WriteLine($"{userToAdd.Name} was successfully added!");
             System.Console.WriteLine("Returning you to the options");
 
@@ -192,7 +210,18 @@ namespace UI
             }while (String.IsNullOrWhiteSpace(password));
             User userToAdd;
             userToAdd = new User(name, username, password, check);
-            userToAdd = _reviewb1.AddUser(userToAdd);
+            try
+                {
+                    userToAdd = _reviewb1.AddUser(userToAdd);
+                    Log.Debug("user has been added! " + userToAdd.Name);
+                }
+                catch (Exception ex)
+                {
+                    Log.Error(ex, "User has not been added! " + userToAdd.Name);
+                }
+                finally{
+                    Log.CloseAndFlush();
+                }
             System.Console.WriteLine($"{userToAdd.Name} was successfully added as an Admin!");
             Endofmethod: Console.WriteLine("Please choose another option!");
         }
@@ -237,6 +266,7 @@ namespace UI
                 {
                     check = false;
                 }
+                
                 if (SearchRestaurantName(rast) == true)
                     check = false;
                 else
@@ -266,7 +296,18 @@ namespace UI
             int rid = thisrestaurant.Id;
             int uid = user.Id;
             reviewToAdd = new Review(title, body, ratinghere);
-            reviewToAdd = _reviewb1.AddReview(reviewToAdd);
+            try
+                {
+                    reviewToAdd = _reviewb1.AddReview(reviewToAdd);
+                    Log.Debug("user has been added! " + reviewToAdd.Title);
+                }
+                catch (Exception ex)
+                {
+                    Log.Error(ex, "User has not been added! " + reviewToAdd.Title);
+                }
+                finally{
+                    Log.CloseAndFlush();
+                }
             int reid = reviewToAdd.Id;
             ReviewJoin reviewjoins;
             reviewjoins = new ReviewJoin(rid, uid, reid);
@@ -312,6 +353,18 @@ namespace UI
             Restaurant AddRestaurant;
             AddRestaurant = new Restaurant(rast, zipcode, 0);
             AddRestaurant = _reviewb1.AddRestaurant(AddRestaurant);
+            try
+                {
+                    AddRestaurant = _reviewb1.AddRestaurant(AddRestaurant);
+                    Log.Debug("user has been added! " + AddRestaurant.Name);
+                }
+                catch (Exception ex)
+                {
+                    Log.Error(ex, "User has not been added! " + AddRestaurant.Name);
+                }
+                finally{
+                    Log.CloseAndFlush();
+                }
             System.Console.WriteLine($"{AddRestaurant.Name} was successfully added as a Restaurant in the system!");
         }
 
