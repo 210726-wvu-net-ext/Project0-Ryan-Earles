@@ -50,10 +50,10 @@ namespace UI
                 Console.WriteLine("[3] Add a Restaurant");
                 Console.WriteLine("[4] Add a Review");
                 Console.WriteLine("[5] Search a User");
-                Console.WriteLine("[6] Display a Restaurant");
+                Console.WriteLine("[6] Search a Restaurant");
                 Console.WriteLine("[7] Search a Review");
-                Console.WriteLine("[8] Display the contents of a Review");
-                Console.WriteLine("[9] Search a Restaurant");
+
+
 
                 switch(Console.ReadLine())
                 {
@@ -86,16 +86,8 @@ namespace UI
                     SearchRestaurant();
                     break;
 
-                    case "7": //search review
-                    SearchReview();
-                    break;
-
-                    case "8":
+                    case "7":
                     DisplayReviewsofRestaurants();
-                    break;
-
-                    case "9":
-                    SearchRestaurant();
                     break;
 
                     default:
@@ -352,7 +344,6 @@ namespace UI
             }while(check);
             Restaurant AddRestaurant;
             AddRestaurant = new Restaurant(rast, zipcode, 0);
-            AddRestaurant = _reviewb1.AddRestaurant(AddRestaurant);
             try
                 {
                     AddRestaurant = _reviewb1.AddRestaurant(AddRestaurant);
@@ -687,9 +678,9 @@ namespace UI
             {
                 
                 System.Console.WriteLine("---------------------------");
-                System.Console.WriteLine(reviews[j.ReviewId].Title);
-                System.Console.WriteLine(reviews[j.ReviewId].Body);
-                System.Console.WriteLine(reviews[j.ReviewId].Rating);
+                System.Console.WriteLine($"Title: {reviews[j.ReviewId-1].Title}");
+                System.Console.WriteLine($"Body: {reviews[j.ReviewId-1].Body}");
+                System.Console.WriteLine($"Rating: {reviews[j.ReviewId-1].Rating}");
                 System.Console.WriteLine("---------------------------");
             }
            
