@@ -330,11 +330,15 @@ namespace UI
             {
                 System.Console.WriteLine("What's the name of the Restaurant you want to add? or press [0] to exit");
                 rast = Console.ReadLine();
+                if (rast == "0")
+                    check = false;
                 if (SearchRestaurantName(rast) == false)
                     check = false;
                 else 
                     Console.WriteLine("We are sorry, the Restaurant you are trying to add is already in our system");
             }while(check);
+            if (rast == "0")
+                goto endofrestaurant;
             check = true;
             do
             {
@@ -357,6 +361,7 @@ namespace UI
                     Log.CloseAndFlush();
                 }
             System.Console.WriteLine($"{AddRestaurant.Name} was successfully added as a Restaurant in the system!");
+            endofrestaurant: System.Console.WriteLine("Returning to the options");
         }
 
         /// <summary>
