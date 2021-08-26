@@ -291,11 +291,11 @@ namespace UI
             try
                 {
                     reviewToAdd = _reviewb1.AddReview(reviewToAdd);
-                    Log.Debug("user has been added! " + reviewToAdd.Title);
+                    Log.Information("user has been added! " + reviewToAdd.Title);
                 }
                 catch (Exception ex)
                 {
-                    Log.Error(ex, "User has not been added! " + reviewToAdd.Title);
+                    Log.Information(ex, "User has not been added! " + reviewToAdd.Title);
                 }
                 finally{
                     Log.CloseAndFlush();
@@ -351,11 +351,11 @@ namespace UI
             try
                 {
                     AddRestaurant = _reviewb1.AddRestaurant(AddRestaurant);
-                    Log.Debug("user has been added! " + AddRestaurant.Name);
+                    Log.Information("user has been added! " + AddRestaurant.Name);
                 }
                 catch (Exception ex)
                 {
-                    Log.Error(ex, "User has not been added! " + AddRestaurant.Name);
+                    Log.Information(ex, "User has not been added! " + AddRestaurant.Name);
                 }
                 finally{
                     Log.CloseAndFlush();

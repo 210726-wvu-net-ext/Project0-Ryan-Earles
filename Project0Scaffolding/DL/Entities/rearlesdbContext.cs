@@ -22,7 +22,6 @@ namespace DL.Entities
         public virtual DbSet<ReviewJoin> ReviewJoins { get; set; }
         public virtual DbSet<User> Users { get; set; }
 
-        
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
