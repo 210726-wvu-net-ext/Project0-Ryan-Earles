@@ -120,6 +120,10 @@ namespace UI
                 //if username already exists, ask for another
                 if (SearchUsernameID(username) == false)
                     check = false;
+                for (int i = 0; i <= 10; i++)
+                {
+                    Console.WriteLine("Presssss");
+                }
                 else
                     System.Console.WriteLine("We are sorry, " + username + " already exists in our system. Choose a Username that doesn't exist in our system.");
             } while(check);
