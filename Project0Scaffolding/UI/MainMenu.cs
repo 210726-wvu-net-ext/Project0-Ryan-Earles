@@ -118,6 +118,11 @@ namespace UI
                 System.Console.WriteLine("What is the username you want for your account? "); //check if its included in the database already
                 username = Console.ReadLine();
                 //if username already exists, ask for another
+                List<Models.User> users = _repo.AllUsers()
+                for (int i = 0; i < users.Count, i++)
+                {
+                    if (users[i].username==username) Console.WriteLine("your username has been already used!")
+                }
                 if (SearchUsernameID(username) == false)
                     check = false;
                 else
